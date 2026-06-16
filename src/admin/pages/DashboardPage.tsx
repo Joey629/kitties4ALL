@@ -179,7 +179,7 @@ export function DashboardPage() {
           value={`${capacity.count} / ${capacity.capacity}`}
           icon={Home}
           metric={capacity.projection.label}
-          subtitle={`Net ${capacity.projection.netPerMonth >= 0 ? '+' : ''}${capacity.projection.netPerMonth.toFixed(1)}/mo (${capacity.projection.avgIntake.toFixed(1)} in · ${capacity.projection.avgOutflow.toFixed(1)} out)${
+          subtitle={`Adoption Throughput ${capacity.projection.netPerMonth >= 0 ? '+' : ''}${capacity.projection.netPerMonth.toFixed(1)}/mo (${capacity.projection.avgIntake.toFixed(1)} in · ${capacity.projection.avgOutflow.toFixed(1)} out)${
             capacity.medicalCare > 0 ? ` · ${capacity.medicalCare} in medical care` : ''
           }`}
         />

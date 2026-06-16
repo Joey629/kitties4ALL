@@ -127,7 +127,7 @@ export function shelterCapacityProjection(
 
   if (netPerMonth <= 0.05) {
     return {
-      label: 'Stable — adoptions keeping pace with intake',
+      label: '',
       daysToFull: null,
       netPerMonth,
       avgIntake,
