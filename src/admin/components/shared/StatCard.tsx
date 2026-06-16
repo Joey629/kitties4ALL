@@ -28,8 +28,9 @@ export function StatCard({
   trend,
   className,
 }: StatCardProps) {
-  const footer = metric ?? subtitle;
-  const showBothFooters = Boolean(metric && subtitle);
+  const footerMetric = metric?.trim() ? metric : undefined;
+  const footer = footerMetric ?? subtitle;
+  const showBothFooters = Boolean(footerMetric && subtitle);
 
   return (
     <Card className={cn('group h-full admin-card hover:border-border hover:shadow-md transition-all duration-200', className)}>
@@ -58,7 +59,7 @@ export function StatCard({
         </div>
         {showBothFooters ? (
           <div className="shrink-0 space-y-1 pt-3">
-            <p className="text-xs font-medium text-muted-foreground">{metric}</p>
+            <p className="text-xs font-medium text-muted-foreground">{footerMetric}</p>
             <p className="text-xs font-medium text-muted-foreground">{subtitle}</p>
           </div>
         ) : (
