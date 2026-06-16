@@ -1,0 +1,432 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", "Inter", ui-sans-serif, sans-serif;
+
+  --color-cream: #fdf6ec;
+  --color-cream-dark: #f5e6d3;
+  --color-warm-brown: #8b6f47;
+  --color-soft-orange: #e8a87c;
+  --color-coral: #e27d60;
+  --color-sage: #85a98f;
+  --color-sage-dark: #5c7a65;
+  --color-lavender: #c3b1e1;
+  --color-sky: #a8d8ea;
+  --color-night: #2d3436;
+  --color-charcoal: #4a4a4a;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Prevent overscroll revealing the public-site cream background on admin */
+  html[data-app="admin"],
+  html[data-app="admin"] body,
+  html[data-app="admin"] #root {
+    background-color: hsl(220 8% 97%);
+    overscroll-behavior: none;
+    overflow: hidden;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  html[data-app="companion"],
+  html[data-app="companion"] body,
+  html[data-app="companion"] #root {
+    overscroll-behavior: none;
+    overflow: hidden;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+}
+
+/* Shared internal app design system (Admin SaaS + Paw Companion) */
+.admin-theme,
+.companion-theme {
+  --background: 40 20% 99%;
+  --foreground: 30 8% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 30 8% 12%;
+  --primary: 152 28% 32%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 40 16% 95%;
+  --secondary-foreground: 30 8% 12%;
+  --muted: 40 14% 94%;
+  --muted-foreground: 30 4% 42%;
+  --accent: 152 20% 95%;
+  --accent-foreground: 152 28% 28%;
+  --destructive: 6 78% 57%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 40 10% 90%;
+  --input: 40 10% 90%;
+  --ring: 152 28% 32%;
+  --sidebar: 40 18% 98%;
+
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: "cv11", "ss01";
+}
+
+.admin-theme .bg-background,
+.companion-theme .bg-background { background-color: hsl(var(--background)); }
+.admin-theme .bg-card,
+.companion-theme .bg-card { background-color: hsl(var(--card)); }
+.admin-theme .bg-sidebar,
+.companion-theme .bg-sidebar { background-color: hsl(var(--sidebar)); }
+.admin-theme .bg-muted,
+.companion-theme .bg-muted { background-color: hsl(var(--muted)); }
+.admin-theme .bg-primary,
+.companion-theme .bg-primary { background-color: hsl(var(--primary)); }
+.admin-theme .bg-secondary,
+.companion-theme .bg-secondary { background-color: hsl(var(--secondary)); }
+.admin-theme .bg-accent,
+.companion-theme .bg-accent { background-color: hsl(var(--accent)); }
+.admin-theme .bg-destructive,
+.companion-theme .bg-destructive { background-color: hsl(var(--destructive)); }
+.admin-theme .bg-primary\/8,
+.companion-theme .bg-primary\/8 { background-color: hsl(var(--primary) / 0.08); }
+.admin-theme .bg-primary\/10,
+.companion-theme .bg-primary\/10 { background-color: hsl(var(--primary) / 0.1); }
+.admin-theme .bg-primary\/15,
+.companion-theme .bg-primary\/15 { background-color: hsl(var(--primary) / 0.15); }
+.admin-theme .text-foreground,
+.companion-theme .text-foreground { color: hsl(var(--foreground)); }
+.admin-theme .text-card-foreground,
+.companion-theme .text-card-foreground { color: hsl(var(--card-foreground)); }
+.admin-theme .text-primary,
+.companion-theme .text-primary { color: hsl(var(--primary)); }
+.admin-theme .text-primary-foreground,
+.companion-theme .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+.admin-theme .text-muted-foreground,
+.companion-theme .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+.admin-theme .text-secondary-foreground,
+.companion-theme .text-secondary-foreground { color: hsl(var(--secondary-foreground)); }
+.admin-theme .text-destructive-foreground,
+.companion-theme .text-destructive-foreground { color: hsl(var(--destructive-foreground)); }
+.admin-theme .text-accent-foreground,
+.companion-theme .text-accent-foreground { color: hsl(var(--accent-foreground)); }
+.admin-theme .border-border,
+.companion-theme .border-border { border-color: hsl(var(--border)); }
+.admin-theme .border-input,
+.companion-theme .border-input { border-color: hsl(var(--input)); }
+.admin-theme .ring-ring,
+.admin-theme .focus-visible\:ring-ring:focus-visible,
+.companion-theme .ring-ring,
+.companion-theme .focus-visible\:ring-ring:focus-visible { --tw-ring-color: hsl(var(--ring)); }
+.admin-theme .focus\:ring-ring\/30:focus,
+.companion-theme .focus\:ring-ring\/30:focus { --tw-ring-color: hsl(var(--ring) / 0.3); }
+.admin-theme .hover\:bg-primary\/90:hover,
+.companion-theme .hover\:bg-primary\/90:hover { background-color: hsl(var(--primary) / 0.9); }
+.admin-theme .hover\:bg-secondary\/80:hover,
+.companion-theme .hover\:bg-secondary\/80:hover { background-color: hsl(var(--secondary) / 0.8); }
+.admin-theme .hover\:bg-accent:hover,
+.companion-theme .hover\:bg-accent:hover { background-color: hsl(var(--accent)); }
+.admin-theme .hover\:bg-muted:hover,
+.companion-theme .hover\:bg-muted:hover { background-color: hsl(var(--muted)); }
+.admin-theme .hover\:text-foreground:hover,
+.companion-theme .hover\:text-foreground:hover { color: hsl(var(--foreground)); }
+.admin-theme .hover\:text-accent-foreground:hover,
+.companion-theme .hover\:text-accent-foreground:hover { color: hsl(var(--accent-foreground)); }
+.admin-theme .hover\:bg-destructive\/90:hover,
+.companion-theme .hover\:bg-destructive\/90:hover { background-color: hsl(var(--destructive) / 0.9); }
+
+/* Admin: brand palette + typography (companion keeps shared tokens above) */
+.admin-theme {
+  --sidebar: 0 0% 100%;
+  --content: 220 8% 97%;
+  --background: 220 6% 98%;
+  --foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --primary: 138 14% 42%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 8% 95%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 220 6% 94%;
+  --muted-foreground: 220 5% 46%;
+  --accent: 137 22% 94%;
+  --accent-foreground: 138 14% 32%;
+  --border: 220 10% 88%;
+  --input: 220 10% 88%;
+  --ring: 138 14% 42%;
+
+  font-family: "Inter", "Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+
+.admin-theme .admin-main {
+  background-color: hsl(var(--content));
+}
+
+.admin-theme .font-display {
+  font-family: var(--font-display);
+}
+
+.admin-theme .admin-card {
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 10px 28px -24px rgba(0, 0, 0, 0.08);
+}
+
+.companion-theme .bg-primary-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.88));
+}
+
+.companion-theme .stroke-accent { stroke: hsl(var(--accent)); }
+.companion-theme .stroke-primary { stroke: hsl(var(--primary)); }
+
+/* Companion desktop phone mockup */
+.companion-preview-bg {
+  background: linear-gradient(160deg, hsl(var(--muted)) 0%, hsl(var(--background)) 45%, hsl(var(--accent)) 100%);
+}
+
+.companion-phone {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 2.5rem;
+  box-shadow: 0 20px 48px -28px rgba(0, 0, 0, 0.22);
+  transform: scale(0.9);
+  transform-origin: center center;
+}
+
+.companion-phone-bezel {
+  position: relative;
+  padding: 8px;
+  border-radius: 2.5rem;
+  background: linear-gradient(145deg, #2a2a2e 0%, #1a1a1d 50%, #0f0f11 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Slim phone viewport: 360 × 920 CSS px */
+.companion-phone-screen {
+  position: relative;
+  width: 360px;
+  height: min(920px, 96dvh);
+  border-radius: 2rem;
+  overflow: hidden;
+  background: hsl(var(--background));
+}
+
+.companion-phone-screen > .companion-phone-content {
+  padding-top: 2.5rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+.companion-phone-screen .companion-bottom-nav {
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.companion-phone-island {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  z-index: 60;
+  transform: translateX(-50%);
+  width: 108px;
+  height: 30px;
+  border-radius: 18px;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 14px;
+  pointer-events: none;
+}
+
+.companion-phone-camera {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #3a3a4a, #0a0a12);
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+.companion-phone-home-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  z-index: 60;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.companion-phone-button {
+  position: absolute;
+  background: #1f1f22;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.companion-phone-button-left {
+  left: -3px;
+  top: 114px;
+  width: 3px;
+  height: 50px;
+}
+
+.companion-phone-button-right {
+  right: -3px;
+  top: 150px;
+  width: 3px;
+  height: 64px;
+}
+
+.companion-phone-button-right::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 88px;
+  width: 3px;
+  height: 48px;
+  background: #1f1f22;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    background: rgba(253, 246, 236, 0.88);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(139, 111, 71, 0.1);
+  }
+
+  .story-card {
+    background: rgba(253, 246, 236, 0.92);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 111, 71, 0.12);
+  }
+}
+
+/* Public website / Kitties 4 All experience theme */
+.experience-theme {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.experience-landing {
+  background: #f3ebe0;
+}
+
+.experience-landing-bg {
+  transform: scale(1.02);
+}
+
+.experience-landing-overlay {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(250, 246, 239, 0.72) 0%,
+      rgba(250, 246, 239, 0.18) 32%,
+      rgba(250, 246, 239, 0.08) 55%,
+      rgba(250, 246, 239, 0.55) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(250, 246, 239, 0.82) 0%,
+      rgba(250, 246, 239, 0.35) 42%,
+      transparent 72%
+    );
+}
+
+.experience-landing-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 12% 8%, rgba(133, 169, 143, 0.14), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 88% 18%, rgba(232, 168, 124, 0.12), transparent 50%),
+    radial-gradient(ellipse 40% 35% at 50% 100%, rgba(139, 111, 71, 0.08), transparent 60%);
+}
+
+.experience-landing-panel {
+  background: linear-gradient(145deg, rgba(255, 252, 248, 0.92) 0%, rgba(253, 246, 236, 0.78) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 20px 50px -24px rgba(139, 111, 71, 0.22);
+}
+
+.experience-video-placeholder {
+  background: linear-gradient(145deg, rgba(255, 252, 248, 0.95) 0%, rgba(240, 232, 220, 0.85) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 20px 50px -24px rgba(139, 111, 71, 0.18);
+}
+
+.experience-video-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 12px,
+    rgba(139, 111, 71, 0.04) 12px,
+    rgba(139, 111, 71, 0.04) 24px
+  );
+  pointer-events: none;
+}
+
+.experience-action-card {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.experience-action-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 111, 71, 0.18);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 16px 40px -28px rgba(139, 111, 71, 0.28);
+}
+
+.experience-shelter-bg {
+  background: #f3ebe0;
+}
+
+.experience-story-panel {
+  background: linear-gradient(180deg, rgba(253, 246, 236, 0.97) 0%, rgba(245, 230, 211, 0.95) 100%);
+  backdrop-filter: blur(20px);
+}
+
+/* Admin polish */
+.admin-theme.admin-surface {
+  background: hsl(var(--sidebar));
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.admin-theme .admin-nav-active {
+  box-shadow: inset 3px 0 0 hsl(var(--primary));
+}
