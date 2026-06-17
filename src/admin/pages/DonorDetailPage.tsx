@@ -10,10 +10,10 @@ import { Badge } from '@/admin/components/ui/badge';
 import { Button } from '@/admin/components/ui/button';
 import { Input } from '@/admin/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/admin/components/ui/tabs';
-import { getAllCats, getCatById } from '@/admin/data/mock';
+import { getCatById } from '@/admin/data/mock';
 import { useDonors } from '@/hooks/useDonors';
 import { useAdoptionApplications } from '@/hooks/useAdoptionApplications';
-import { isDonationAcknowledged, recordManualDonation, updateDonorContact } from '@/shared/donors';
+import { isDonationAcknowledged, updateDonorContact } from '@/shared/donors';
 import { formatCurrency, formatDate } from '@/admin/lib/utils';
 import type { Communication } from '@/admin/types';
 import type { ReactNode } from 'react';
@@ -66,9 +66,6 @@ export function DonorDetailPage() {
   const [nameDraft, setNameDraft] = useState('');
   const [emailDraft, setEmailDraft] = useState('');
   const [phoneDraft, setPhoneDraft] = useState('');
-  const [giftAmount, setGiftAmount] = useState('');
-  const [giftType, setGiftType] = useState<'one-time' | 'monthly'>('one-time');
-  const [giftCatId, setGiftCatId] = useState('');
 
   const supportedCats = useMemo(
     () =>
@@ -77,8 +74,6 @@ export function DonorDetailPage() {
         .filter((cat): cat is NonNullable<typeof cat> => Boolean(cat)),
     [donor],
   );
-
-  const catOptions = useMemo(() => getAllCats(), []);
 
   const matchingAdoption = useMemo(() => {
     if (!donor) return null;
@@ -115,25 +110,6 @@ export function DonorDetailPage() {
       phone: phoneDraft,
     });
     setEditingContact(false);
-    refresh();
-  }
-
-  function handleRecordDonation(event: React.FormEvent) {
-    event.preventDefault();
-    const amount = Number(giftAmount.replace(/[^0-9.]/g, '')) || 0;
-    if (amount <= 0) return;
-
-    const selectedCat = giftCatId ? getCatById(giftCatId) : undefined;
-    recordManualDonation({
-      donorId: donor!.id,
-      amount,
-      type: giftType,
-      catId: selectedCat?.id,
-      catName: selectedCat?.name,
-      acknowledged: false,
-    });
-    setGiftAmount('');
-    setGiftCatId('');
     refresh();
   }
 
@@ -260,48 +236,7 @@ export function DonorDetailPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="donations" className="mt-4 space-y-6">
-                <form
-                  onSubmit={handleRecordDonation}
-                  className="rounded-lg border border-dashed border-border bg-muted/10 p-4"
-                >
-                  <p className="text-sm font-semibold text-foreground">Record donation</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Log an offline gift for this donor (saved locally for demo).
-                  </p>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-4">
-                    <Input
-                      value={giftAmount}
-                      onChange={(event) => setGiftAmount(event.target.value)}
-                      placeholder="Amount"
-                      inputMode="decimal"
-                    />
-                    <select
-                      value={giftType}
-                      onChange={(event) => setGiftType(event.target.value as 'one-time' | 'monthly')}
-                      className="rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    >
-                      <option value="one-time">One-time</option>
-                      <option value="monthly">Monthly</option>
-                    </select>
-                    <select
-                      value={giftCatId}
-                      onChange={(event) => setGiftCatId(event.target.value)}
-                      className="rounded-md border border-input bg-background px-3 py-2 text-sm sm:col-span-2"
-                    >
-                      <option value="">General shelter fund</option>
-                      {catOptions.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <Button type="submit" size="sm" className="mt-3" disabled={!giftAmount.trim()}>
-                    Record gift
-                  </Button>
-                </form>
-
+              <TabsContent value="donations" className="mt-4">
                 {donor.donations.length === 0 ? (
                   <EmptyState>No donations recorded yet.</EmptyState>
                 ) : (
